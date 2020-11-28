@@ -1,0 +1,107 @@
+; ZX Spectrum Next specific stuff
+
+; Spectrum next hardware registers
+
+; CPU Speed register $07
+ZXNEXT_REG_CPU_SPEED:			.equ $07
+
+; Global Transparency colour
+; https://wiki.specnext.dev/Global_Transparency_Register
+ZXNEXT_REG_GLOBAL_TRANSPARENCY:		.equ $14
+
+; Sprites and layers system register
+; https://wiki.specnext.dev/Sprite_and_Layers_System_Register
+ZXNEXT_REG_SPRITE_LAYERS:		.equ $15
+ZXNEXT_REG_SPRITE_LAYERS_SLU:		.equ %000'000'00
+
+; Enhanced ULA registers
+
+; Enhanced ULA Control
+; https://wiki.specnext.dev/Enhanced_ULA_Control_Register
+ZXNEXT_REG_ENULA_CONTROL:		.equ $43
+
+; NB: z88dk references this reg by the old name
+ZXNEXT_REG_PALETTE_CONTROL:		.equ ZXNEXT_REG_ENULA_CONTROL
+
+ZXNEXT_REG_ENULA_CONTROL_ULA_PAL1:	.equ %00'000'0000
+ZXNEXT_REG_ENULA_CONTROL_ULA_PAL2:	.equ %00'100'0000
+ZXNEXT_REG_ENULA_CONTROL_TILE_PAL1:	.equ %00'011'0000
+
+; Enhanced ULA Palette extension
+; https://wiki.specnext.dev/Enhanced_ULA_Palette_Extension
+ZXNEXT_REG_ENULA_PALETTE_EXT:		.equ $44
+
+; https://wiki.specnext.dev/Transparency_colour_fallback_Register
+ZXNEXT_REG_TRANSPARENCY_FALLBACK:	.equ $4A
+
+; Tilemap Registers
+
+; Tilemap Clip window
+; https://wiki.specnext.dev/Clip_Window_Tilemap_Register
+; Call four times, X1,X2,Y1,Y2
+ZXNEXT_REG_TILE_CLIP_WIN:		.equ $1B
+
+; https://wiki.specnext.dev/Tilemap_Offset_X_MSB_Register
+ZXNEXT_REG_TILE_OFFSET_X_MSB:		.equ $2F
+
+; https://wiki.specnext.dev/Tilemap_Offset_X_LSB_Register
+ZXNEXT_REG_TILE_OFFSET_X_LSB:		.equ $30
+
+; https://wiki.specnext.dev/Tilemap_Offset_Y_Register
+ZXNEXT_REG_TILE_OFFSET_Y:		.equ $31
+
+; https://wiki.specnext.dev/Palette_Index_Register
+ZXNEXT_REG_PALETTE_INDEX:		.equ $40
+
+; https://wiki.specnext.dev/Palette_Value_Register
+ZXNEXT_REG_PALETTE_VALUE_8:		.equ $41
+
+; Tilemap transparency index
+ZXNEXT_REG_TILE_XP_INDEX:		.equ $4C 
+
+; ULA Control
+; https://wiki.specnext.dev/ULA_Control_Register
+ZXNEXT_REG_ULA_CONTROL:			.equ $68
+
+ZXNEXT_REG_ULA_CONTROL_DISABLE:		.equ %1'00'0'0'0'0'0
+ZXNEXT_REG_ULA_CONTROL_ENABLE:		.equ %0'00'0'0'0'0'0
+
+; Display control 1
+; https://wiki.specnext.dev/Display_Control_1_Register
+ZXNEXT_REG_DISPLAY_CONTROL_1:		.equ $69
+
+; Tilemap Control
+; https://wiki.specnext.dev/Tilemap_Control_Register
+ZXNEXT_REG_TILE_CONTROL:		.equ $6B
+
+ZXNEXT_REG_TILE_CONTROL_ENABLE:		.equ %10000000
+ZXNEXT_REG_TILE_CONTROL_40x32:		.equ %00000000
+ZXNEXT_REG_TILE_CONTROL_80x32:		.equ %01000000
+
+ZXNEXT_REG_TILE_CONTROL_NOATTR:		.equ %00100000
+ZXNEXT_REG_TILE_CONTROL_ATTR:		.equ %00000000
+
+ZXNEXT_REG_TILE_CONTROL_PAL1:		.equ %00000000
+ZXNEXT_REG_TILE_CONTROL_PAL2:		.equ %00010000
+
+ZXNEXT_REG_TILE_CONTROL_TEXTMODE:	.equ %00001000
+ZXNEXT_REG_TILE_CONTROL_512MODE:	.equ %00000010
+ZXNEXT_REG_TILE_CONTROL_PRI:		.equ %00000001
+
+; Default Tilemap attributes
+; https://wiki.specnext.dev/Default_Tilemap_Attribute_Register
+ZXNEXT_REG_TILE_DEFAULT_ATTR:		.equ $6C
+
+; Tilemap base address
+; https://wiki.specnext.dev/Tilemap_Base_Address_Register
+ZXNEXT_REG_TILE_BASE_ADDR:		.equ $6E
+
+; Tilemap definitions base address
+; https://wiki.specnext.dev/Tile_Definitions_Base_Address_Register
+ZXNEXT_REG_TILE_DEF_BASE_ADDR:		.equ $6F
+
+
+; Initialization for the next
+zxnext_init:
+	nextreg ZXNEXT_REG_CPU_SPEED, $00 ; 3.5mhz
+	ret

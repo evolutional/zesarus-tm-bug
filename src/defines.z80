@@ -1,0 +1,8 @@
+; Address of the active data in bank 5
+tilemap_data_addr:		.equ $4000
+
+; We're using 40x32 mode with attributes
+tilemap_data_len:		.equ $0A00
+
+; Address of the active definition set in bank 5
+tilemap_defs_addr:		.equ tilemap_data_addr + tilemap_data_len

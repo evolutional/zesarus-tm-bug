@@ -1,0 +1,45 @@
+
+; TEMP CODE
+tilemap_init:
+
+	ld bc,tilemap_data_addr		; tilemap addr
+	ld a,b
+	nextreg ZXNEXT_REG_TILE_BASE_ADDR,a	; set the tile base addr to the tile map
+
+	ld bc,tilemap_defs_addr		; definition addr
+	ld a,b
+	nextreg ZXNEXT_REG_TILE_DEF_BASE_ADDR,a ; set the tile definition address
+
+	; tilemaps are enabled, but have no attributes
+	ld a,ZXNEXT_REG_TILE_CONTROL_ENABLE | ZXNEXT_REG_TILE_CONTROL_ATTR | ZXNEXT_REG_TILE_CONTROL_40x32 | ZXNEXT_REG_TILE_CONTROL_512MODE | ZXNEXT_REG_TILE_CONTROL_PRI
+	nextreg ZXNEXT_REG_TILE_CONTROL,a	; set the tilemap control registers up
+
+	ld a,$00				; default everything
+	nextreg ZXNEXT_REG_TILE_DEFAULT_ATTR,a	; set default tilemap attrs
+
+	ld a,$00				; default everything
+	nextreg ZXNEXT_REG_TILE_XP_INDEX,a	; set transparency index
+
+	nextreg ZXNEXT_REG_TILE_CLIP_WIN,$00	; X1
+	nextreg ZXNEXT_REG_TILE_CLIP_WIN,$9f	; X2
+	nextreg ZXNEXT_REG_TILE_CLIP_WIN,$00	; Y1
+	nextreg ZXNEXT_REG_TILE_CLIP_WIN,$FF	; Y2
+
+	; Set origins
+	nextreg ZXNEXT_REG_TILE_OFFSET_X_MSB,$00
+	nextreg ZXNEXT_REG_TILE_OFFSET_X_LSB,$00
+	nextreg ZXNEXT_REG_TILE_OFFSET_Y,$00
+
+	ret
+
+
+
+; Inputs:
+;	HL	Source address
+tilemap_page_in:
+	; TODO: optimise into a stack copy
+	ld de,tilemap_data_addr
+	ld bc,tilemap_data_len
+	ldir
+
+	ret

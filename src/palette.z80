@@ -1,0 +1,20 @@
+; Work in progress
+pal_main:
+	.db $00,$10	; 0  (0) Black
+	.db $ff,$11	; 1  (1) White
+	.db $ff,$11	; 2  (2) White
+	.db $ff,$11	; 3  (3) White
+	.db $ff,$11	; 4  (4) White
+	.db $ff,$11	; 5  (5) White
+	.db $ff,$11	; 6  (6) White
+	.db $ff,$11	; 7  (7) White
+	.db $ff,$11	; 8  (8) White
+	.db $ff,$11	; 9  (9) White
+	.db $ff,$11	; 10 (A) White
+	.db $ff,$11	; 11 (B) White
+	.db $ff,$11	; 12 (C) White
+	.db $ff,$11	; 13 (D) White
+	.db $ff,$11	; 14 (E) White
+	.db $ff,$11	; 15 (F) White
+
+pal_main_len: .equ $-pal_main+1

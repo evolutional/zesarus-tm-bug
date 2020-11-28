@@ -1,0 +1,74 @@
+; Main file
+	DEVICE ZXSPECTRUMNEXT
+
+	include "src/defines.z80"
+; Memory Map (WIP)
+;
+;	$4000 - Tilemap
+;	$4A00 - Tile definitions
+
+	; load the data into the right place
+	.org $C000
+	incbin "src/generated/data_screen_00.bin"
+	.org tilemap_defs_addr
+	incbin "src/generated/data_wiptiles.bin"
+
+code_start:	.equ $8000
+	.org code_start
+
+
+main_init:
+	di
+
+display_init:
+	; initial setup here
+	call zxnext_init
+
+	; turn off the ULA
+	nextreg ZXNEXT_REG_ULA_CONTROL, ZXNEXT_REG_ULA_CONTROL_DISABLE
+
+	nextreg ZXNEXT_REG_SPRITE_LAYERS, ZXNEXT_REG_SPRITE_LAYERS_SLU
+
+palette_init:
+	ld hl,pal_main
+	ld b,16
+	nextreg ZXNEXT_REG_PALETTE_CONTROL,ZXNEXT_REG_ENULA_CONTROL_TILE_PAL1
+	nextreg ZXNEXT_REG_PALETTE_INDEX,0	; start palette at index
+.loop:
+	ld a,(hl)
+	inc hl
+	nextreg ZXNEXT_REG_ENULA_PALETTE_EXT,a	; RRRGGGBB
+	ld a,(hl)
+	inc hl
+	nextreg ZXNEXT_REG_ENULA_PALETTE_EXT,a	; B
+	djnz .loop
+	
+	call tilemap_init
+
+	; copy the tilemap data into the screen location
+	ld hl,$C000
+	call tilemap_page_in
+
+main:
+	; start mainloop
+	ei
+.loop:
+	halt
+
+	jr .loop
+
+	include "src/tilemap.z80"
+	include "src/zxnext.z80"
+
+data_start:
+	include "src/palette.z80"
+
+data_length: .equ $-data_start+1
+
+	cspectmap "build/zesarux-tm-bug.map"
+
+	savenex open "build/zesarux-tm-bug.nex", code_start
+	savenex core 3,0,0
+	savenex cfg 0
+	savenex auto
+	savenex close
